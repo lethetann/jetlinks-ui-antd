@@ -9,10 +9,11 @@ import Service from './service';
 interface Props {
   dispatch: Dispatch;
   settings: Settings;
+  location: any;
 }
 
 const Login: React.FC<Props> = props => {
-  const { dispatch, settings } = props;
+  const { dispatch, settings, location: { query } } = props;
 
   const service = new Service('');
   const [username, setUsername] = useState<string>('');
@@ -28,7 +29,15 @@ const Login: React.FC<Props> = props => {
   const handleSubmit = () => {
     dispatch({
       type: 'login/login',
-      payload: { username, password, expires, tokenType: 'default', verifyKey: captcha, verifyCode: code },
+      payload: {
+        username,
+        password,
+        expires,
+        tokenType: 'default',
+        verifyKey: captcha,
+        verifyCode: code,
+        bindCode: query?.code
+      },
       callback: () => { getCodeImg() }
     });
   };

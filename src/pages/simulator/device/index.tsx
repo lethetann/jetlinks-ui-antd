@@ -29,7 +29,7 @@ const Simulator: React.FC<Props> = props => {
 
     const remove = (id: string) => {
         service.remove(id).subscribe(() => {
-            message.success('删除成功');
+            message.error('删除成功');
             search();
         })
     }
@@ -37,6 +37,8 @@ const Simulator: React.FC<Props> = props => {
     const start = (id: string) => {
         service.start(id).subscribe(() => {
             message.success('启动成功');
+            setDetailVisible(true);
+            // setCurrent(item)
             search();
         })
     }
@@ -71,8 +73,12 @@ const Simulator: React.FC<Props> = props => {
                                                 <Icon
                                                     type="eye"
                                                     onClick={() => {
-                                                        setDetailVisible(true);
-                                                        setCurrent(item)
+                                                        if (item.status.value === 'stop') {
+                                                            message.success('模拟器未启动！')
+                                                        } else {
+                                                            setDetailVisible(true);
+                                                            setCurrent(item)
+                                                        }
                                                     }}
                                                 />
                                             </Tooltip>,
@@ -90,6 +96,7 @@ const Simulator: React.FC<Props> = props => {
                                                 <Icon
                                                     type="play-circle"
                                                     onClick={() => {
+                                                        setCurrent(item);
                                                         item.status.value === 'stop' ? start(item.id) : stop(item.id)
                                                     }}
                                                 />
@@ -98,7 +105,12 @@ const Simulator: React.FC<Props> = props => {
                                                 <Popconfirm
                                                     title="删除此模拟器？"
                                                     onConfirm={() => {
-                                                        remove(item.id)
+                                                        console.log(item, 'itt');
+                                                        if (item.status.value === 'running') {
+                                                            message.success('运行中，删除失败！')
+                                                        } else {
+                                                            remove(item.id)
+                                                        }
                                                     }}>
                                                     <Icon type="close" />
                                                 </Popconfirm>

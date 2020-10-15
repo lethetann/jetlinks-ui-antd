@@ -179,6 +179,18 @@ export const routes = [
                                 component: './device/group',
                             },
                             {
+                                path: '/device/tree',
+                                name: '设备树',
+                                icon: 'gold',
+                                component: './device/tree'
+                            },
+                            {
+                                hideInMenu: true,
+                                path: '/device/tree/detail',
+                                name: '分组详情',
+                                component: './device/tree/DeviceTree',
+                            },
+                            {
                                 hideInMenu: true,
                                 path: '/device/instance/add',
                                 name: '添加设备',
@@ -345,7 +357,7 @@ export const routes = [
                             // },
                         ],
                     },
-                    /*{
+                    {
                         path: 'data-screen',
                         name: '大屏数据',
                         icon: 'desktop',
@@ -374,7 +386,7 @@ export const routes = [
                                 component: './data-screen/screen',
                             }
                         ]
-                    },*/
+                    },
                     {
                         path: 'logger',
                         name: '日志管理',
@@ -430,11 +442,13 @@ export const routes = [
                         path: 'simulator',
                         name: '模拟测试',
                         icon: 'bug',
+                        authority: ['network-simulator', 'admin'],
                         routes: [
                             {
                                 path: '/simulator/device',
                                 name: '设备模拟器',
                                 icon: 'paper-clip',
+                                authority: ['network-simulator', 'admin'],
                                 component: './simulator/device',
                             }
                         ]
